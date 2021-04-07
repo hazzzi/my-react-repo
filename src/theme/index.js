@@ -1,3 +1,5 @@
+const pixelToRem = size => `${size / 16}rem`
+
 const palette = {
     primary: {
         light: '#02C7F2',
@@ -11,6 +13,7 @@ const palette = {
 }
 
 const theme = {
+    pixelToRem,
     palette,
 }
 
