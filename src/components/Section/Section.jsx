@@ -1,8 +1,5 @@
-/* eslint-disable react/prop-types */
-import React from 'react'
+import styled from 'styled-components'
 
-const Section = ({ children }) => {
-    return <section>{children}</section>
-}
+const Section = styled.section``
 
 export default Section
