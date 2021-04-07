@@ -14,3 +14,8 @@ export const selectedProblemState = atom({
     key: 'selectedProblemState',
     default: undefined,
 })
+
+export const firstLoadState = atom({
+    key: 'firstLoadState',
+    default: { problem: true, similar: true },
+})

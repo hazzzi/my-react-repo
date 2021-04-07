@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import api from 'src/api'
 import { Button, Layout, Section, SectionSubtitle, SectionTitle } from 'src/components'
-import { problemsState, selectedProblemState, similarsState } from 'src/recoil/store'
+import { firstLoadState, problemsState, selectedProblemState, similarsState } from 'src/recoil/store'
 import styled from 'styled-components'
 import Placeholder from './components/Placeholder'
 import ProblemCard from './components/ProblemCard'
@@ -15,13 +15,18 @@ const PlaceholderButton = styled(Button)`
 
 function App() {
     const [problems, setProblems] = useRecoilState(problemsState)
+    const [firstLoad, setFirstLoad] = useRecoilState(firstLoadState)
+
     const similars = useRecoilValue(similarsState)
     const selectedProblem = useRecoilValue(selectedProblemState)
 
     const reloadData = async () => {
         try {
+            if (!firstLoad.problem) return
+
             const { data: problems } = await api.problems()
             setProblems(problems)
+            setFirstLoad({ ...firstLoad, problem: true })
         } catch (err) {
             console.log(err.message)
         }

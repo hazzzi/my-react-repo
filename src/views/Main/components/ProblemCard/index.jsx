@@ -3,7 +3,7 @@ import React from 'react'
 import { useRecoilState } from 'recoil'
 import api from 'src/api'
 import { Button, Typography } from 'src/components'
-import { problemsState, selectedProblemState, similarsState } from 'src/recoil/store'
+import { firstLoadState, problemsState, selectedProblemState, similarsState } from 'src/recoil/store'
 import styled, { useTheme } from 'styled-components'
 
 const ProblemWrapper = styled.article`
@@ -59,12 +59,18 @@ const ProblemCard = ({ seq, isSimilar, problem }) => {
     const [problems, setProblems] = useRecoilState(problemsState)
     const [similars, setSimilars] = useRecoilState(similarsState)
 
+    const [firstLoad, setFirstLoad] = useRecoilState(firstLoadState)
+
     // 유사문항 버튼 클릭
     const _handleSimilarClick = async problem => {
         try {
-            const { data: similars } = await api.similars()
+            if (firstLoad.similar) {
+                const { data: similars } = await api.similars()
+                setSimilars(similars)
+                setFirstLoad({ ...firstLoad, similar: false })
+            }
+
             setSelectedProblem(problem)
-            setSimilars(similars)
         } catch (err) {
             console.log(err.message)
         }
