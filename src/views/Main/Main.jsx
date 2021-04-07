@@ -2,10 +2,16 @@ import React, { useEffect } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import api from 'src/api'
 import { Button, Layout, Section, SectionSubtitle, SectionTitle } from 'src/components'
-import { problemsState, similarsState, selectedProblemState } from 'src/recoil/store'
+import { problemsState, selectedProblemState, similarsState } from 'src/recoil/store'
 import styled from 'styled-components'
 import Placeholder from './components/Placeholder'
 import ProblemCard from './components/ProblemCard'
+
+const PlaceholderButton = styled(Button)`
+    width: 70px;
+    height: 24px;
+    font-size: 12px;
+`
 
 function App() {
     const [problems, setProblems] = useRecoilState(problemsState)
@@ -51,11 +57,5 @@ function App() {
         </Layout>
     )
 }
-
-const PlaceholderButton = styled(Button)`
-    width: 70px;
-    height: 24px;
-    font-size: 12px;
-`
 
 export default App
