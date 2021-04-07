@@ -4,12 +4,12 @@ import { Typography } from 'src/components'
 import styled, { useTheme } from 'styled-components'
 
 const PlaceholderWrapper = styled.article`
+    width: 646px;
     height: 100%;
+
     display: flex;
     justify-content: center;
     align-items: center;
-
-    width: 646px;
 `
 
 const PlaceholderButton = styled(Button)`

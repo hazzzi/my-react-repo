@@ -2,8 +2,8 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
 const Button = styled.button`
-    background-color: ${({ theme, varient }) =>
-        varient === 'contains' ? theme.palette.primary.main : theme.palette.white};
+    background-color: ${({ theme, variant }) =>
+        variant === 'contains' ? theme.palette.primary.main : theme.palette.white};
     border: 1px solid ${({ theme }) => theme.palette.border};
     border-radius: 2px;
     cursor: pointer;
@@ -14,15 +14,15 @@ const Button = styled.button`
     font-weight: bold;
     font-size: ${({ theme }) => theme.pixelToRem(14)};
     line-height: ${({ theme }) => theme.pixelToRem(14)};
-    color: ${({ theme, varient }) => (varient === 'contains' ? theme.palette.white : theme.palette.primary.main)};
+    color: ${({ theme, variant }) => (variant === 'contains' ? theme.palette.white : theme.palette.primary.main)};
 `
 
 Button.propTypes = {
-    varient: PropTypes.oneOf(['contains', 'outlined']),
+    variant: PropTypes.oneOf(['contains', 'outlined']),
 }
 
 Button.defaultProps = {
-    varient: 'outlined',
+    variant: 'outlined',
 }
 
 export default Button

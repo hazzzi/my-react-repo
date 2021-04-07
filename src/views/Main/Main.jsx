@@ -33,8 +33,8 @@ function App() {
             <Section>
                 <SectionTitle align="center">문항 교체/추가</SectionTitle>
                 {similars.length === 0 && <Placeholder />}
-                {similars.map((similars, index) => (
-                    <Problem key={similars.id} seq={index + 1} {...similars} />
+                {similars.map((similar, index) => (
+                    <Problem key={similar.id} seq={index + 1} similar {...similar} />
                 ))}
             </Section>
         </Layout>

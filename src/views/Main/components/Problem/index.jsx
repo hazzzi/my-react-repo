@@ -32,7 +32,6 @@ const UnitName = styled(Typography)`
 
 const ProblemBody = styled.div`
     display: flex;
-    // align-items: center;
     padding: 16px;
     padding-left: 47px;
 `
@@ -49,7 +48,7 @@ const ImageWrapper = styled.div`
     }
 `
 
-const Problem = ({ seq, problemType, problemURL, unitName }) => {
+const Problem = ({ seq, similar, problemType, problemURL, unitName }) => {
     const theme = useTheme()
     return (
         <ProblemWrapper>
@@ -58,8 +57,17 @@ const Problem = ({ seq, problemType, problemURL, unitName }) => {
                     {problemType}
                 </Typography>
                 <UnitName as="p">{unitName}</UnitName>
-                <Button varient="outlined">유사문항</Button>
-                <Button varient="outlined">삭제</Button>
+                {!similar ? (
+                    <>
+                        <Button variant="outlined">유사문항</Button>
+                        <Button variant="outlined">삭제</Button>
+                    </>
+                ) : (
+                    <>
+                        <Button variant="outlined">추가</Button>
+                        <Button variant="outlined">교체</Button>
+                    </>
+                )}
             </ProblemHeader>
             <ProblemBody>
                 <Typography fontSize={'24px'} fontWeight="bold" color={theme.palette.primary.light}>
@@ -78,6 +86,7 @@ Problem.propTypes = {
     problemType: PropTypes.string,
     problemURL: PropTypes.string,
     unitName: PropTypes.string,
+    similar: PropTypes.any,
 }
 
 export default Problem
