@@ -1,8 +1,9 @@
-/* eslint-disable react/prop-types */
-import React from 'react'
+import styled from 'styled-components'
 
-const Layout = ({ children }) => {
-    return <main>{children}</main>
-}
+const Layout = styled.main`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`
 
 export default Layout
