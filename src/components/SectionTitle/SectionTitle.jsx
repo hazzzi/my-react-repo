@@ -4,12 +4,10 @@ import styled from 'styled-components'
 
 const TitleWrapper = styled.div`
     border-bottom: 2px solid ${({ theme }) => theme.palette.border};
-
-    ${({ align }) => (align === 'center' ? `text-align: center` : ` padding-left: 25px`)};
-
+    background-color: ${({ theme }) => theme.palette.white};
     position: sticky;
     top: 0;
-    background-color: ${({ theme }) => theme.palette.white};
+    ${({ align }) => (align === 'center' ? `text-align: center` : ` padding-left: 25px`)};
 `
 
 const SectionTitle = ({ children, align }) => {

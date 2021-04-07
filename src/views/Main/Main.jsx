@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react'
 import api from 'src/api'
 import { Layout, Section, SectionTitle } from 'src/components'
