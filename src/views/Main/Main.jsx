@@ -4,10 +4,16 @@ import api from 'src/api'
 import styled from 'styled-components'
 import { Layout, Section, Typography } from '../../components'
 import Problem from './components/Problem'
+import Similar from './components/Similar'
 
 const Box = styled.div`
     border-bottom: 2px solid ${({ theme }) => theme.palette.border};
     padding-left: 25px;
+`
+
+const Box2 = styled.div`
+    border-bottom: 2px solid ${({ theme }) => theme.palette.border};
+    text-align: center;
 `
 
 function App() {
@@ -35,13 +41,10 @@ function App() {
                 ))}
             </Section>
             <Section>
-                <article>
+                <Box2>
                     <h4>문항 교체/추가</h4>
-                </article>
-                <article>
-                    <Typography>유사문항 버튼을 누르면</Typography>
-                    <Typography>해당 문제의 유사 문항을 볼 수 있습니다.</Typography>
-                </article>
+                </Box2>
+                <Similar />
             </Section>
         </Layout>
     )
