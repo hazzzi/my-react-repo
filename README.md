@@ -4,7 +4,7 @@
 - 프레임워크: React
 - 라이브러리: recoil, styled-components
 
-## 1.3. 실행 가이드
+## 1.2. 실행 가이드
 
 1. git 저장소 가져오기
 ```bash
