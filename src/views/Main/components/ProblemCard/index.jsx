@@ -48,7 +48,16 @@ const ImageWrapper = styled.div`
     }
 `
 
-const ProblemCard = ({ seq, selected, isSimilar, problem, onSimilarClick, onRemoveClick, onAddClick }) => {
+const ProblemCard = ({
+    seq,
+    selected,
+    isSimilar,
+    problem,
+    onSimilarClick,
+    onRemoveClick,
+    onAddClick,
+    onChangeClick,
+}) => {
     const theme = useTheme()
     const { id, unitName, problemType, problemURL } = problem
 
@@ -64,7 +73,9 @@ const ProblemCard = ({ seq, selected, isSimilar, problem, onSimilarClick, onRemo
                         <Button variant="outlined" onClick={() => onAddClick(problem)}>
                             추가
                         </Button>
-                        <Button variant="outlined">교체</Button>
+                        <Button variant="outlined" onClick={() => onChangeClick(problem)}>
+                            교체
+                        </Button>
                     </>
                 ) : (
                     <>
@@ -91,9 +102,9 @@ const ProblemCard = ({ seq, selected, isSimilar, problem, onSimilarClick, onRemo
 
 ProblemCard.propTypes = {
     seq: PropTypes.number.isRequired,
-    selected: PropTypes.number.isRequired,
+    selected: PropTypes.bool.isRequired,
     isSimilar: PropTypes.bool,
-    problem: PropTypes.objectOf({
+    problem: PropTypes.shape({
         id: PropTypes.number.isRequired,
         problemType: PropTypes.string,
         problemURL: PropTypes.string,
@@ -102,6 +113,7 @@ ProblemCard.propTypes = {
     onSimilarClick: PropTypes.func,
     onRemoveClick: PropTypes.func,
     onAddClick: PropTypes.func,
+    onChangeClick: PropTypes.func,
 }
 
 export default ProblemCard

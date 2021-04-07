@@ -23,10 +23,10 @@ function App() {
         reloadData()
     }, [])
 
-    const _handleSimilarClick = async ({ id, unitName }) => {
+    const _handleSimilarClick = async problem => {
         try {
             const { data: similars } = await api.similars()
-            setSelectedProblem({ id, unitName })
+            setSelectedProblem(problem)
             setSimilars(similars)
         } catch (err) {
             console.log(err.message)
@@ -47,6 +47,34 @@ function App() {
         }
     }
 
+    const _handleAddClick = problem => {
+        const { id: selectedID } = selectedProblem || {}
+
+        const newProblems = [...problems]
+        const newSimilars = [...similars]
+
+        if (problems.every(({ id }) => id !== problem.id)) {
+            const index = problems.findIndex(problem => problem.id === selectedID)
+            newProblems.splice(index + 1, 0, problem)
+        }
+
+        const sindex = similars.findIndex(similar => similar.id === problem.id)
+        newSimilars.splice(sindex, 1)
+
+        setProblems(newProblems)
+        setSimilars(newSimilars)
+    }
+
+    const _handleChangeClick = problem => {
+        const { id: selectedID } = selectedProblem || {}
+
+        const index = problems.findIndex(problem => problem.id === selectedID)
+        const newProblems = [...problems]
+        newProblems.splice(index, 1, problem)
+        setProblems(newProblems)
+        setSelectedProblem(problem)
+    }
+
     return (
         <Layout>
             <Section>
@@ -65,7 +93,9 @@ function App() {
             </Section>
             <Section>
                 <SectionTitle align="center">문항 교체/추가</SectionTitle>
-                {selectedProblem && <SectionSubtitle as="p">{selectedProblem.unitName}</SectionSubtitle>}
+                {selectedProblem && similars.length > 0 && (
+                    <SectionSubtitle as="p">{selectedProblem.unitName}</SectionSubtitle>
+                )}
                 {similars.length === 0 && (
                     <Placeholder>
                         <PlaceholderButton>유사문항</PlaceholderButton> 버튼을 누르면 <br />
@@ -73,7 +103,14 @@ function App() {
                     </Placeholder>
                 )}
                 {similars.map((similar, index) => (
-                    <ProblemCard key={similar.id} seq={index + 1} isSimilar={true} problem={similar} />
+                    <ProblemCard
+                        key={similar.id}
+                        seq={index + 1}
+                        isSimilar={true}
+                        problem={similar}
+                        onAddClick={_handleAddClick}
+                        onChangeClick={_handleChangeClick}
+                    />
                 ))}
             </Section>
         </Layout>
