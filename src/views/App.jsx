@@ -1,10 +1,10 @@
 import React from 'react'
-import { Layout } from '../components'
+import { Button, Layout, Section } from '../components'
 
 function App() {
     return (
         <Layout>
-            <section>
+            <Section>
                 <article>
                     <h4>학습지 상세 편집</h4>
                 </article>
@@ -12,8 +12,8 @@ function App() {
                     <div>
                         <span>문제 유형</span>
                         <span>문제 설명</span>
-                        <button>버튼</button>
-                        <button>버튼</button>
+                        <Button>버튼</Button>
+                        <Button>버튼</Button>
                     </div>
                     <div>
                         <span>1</span>
@@ -23,8 +23,8 @@ function App() {
                         />
                     </div>
                 </article>
-            </section>
-            <section>
+            </Section>
+            <Section>
                 <article>
                     <h4>문항 교체/추가</h4>
                 </article>
@@ -32,7 +32,7 @@ function App() {
                     <p>유사문항 버튼을 누르면</p>
                     <p>해당 문제의 유사 문항을 볼 수 있습니다.</p>
                 </article>
-            </section>
+            </Section>
         </Layout>
     )
 }
