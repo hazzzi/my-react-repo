@@ -3,7 +3,7 @@ import { Button, Typography } from 'src/components'
 import styled, { useTheme } from 'styled-components'
 import PropTypes from 'prop-types'
 
-const Article = styled.article`
+const ProblemWrapper = styled.article`
     border-bottom: 8px solid ${({ theme }) => theme.palette.background};
 `
 
@@ -47,7 +47,7 @@ const ImageWrapper = styled.div`
 const Problem = ({ seq, problemType, problemURL, unitName }) => {
     const theme = useTheme()
     return (
-        <Article>
+        <ProblemWrapper>
             <ProblemHeader>
                 <Typography as="span" fontWeight="bold" color={theme.palette.text.light}>
                     {problemType}
@@ -64,7 +64,7 @@ const Problem = ({ seq, problemType, problemURL, unitName }) => {
                     <img alt="문제 이미지" src={problemURL} />
                 </ImageWrapper>
             </ProblemBody>
-        </Article>
+        </ProblemWrapper>
     )
 }
 
