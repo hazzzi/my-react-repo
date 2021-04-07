@@ -4,7 +4,12 @@ import styled, { useTheme } from 'styled-components'
 import PropTypes from 'prop-types'
 
 const ProblemWrapper = styled.article`
+    width: 649px;
     border-bottom: 8px solid ${({ theme }) => theme.palette.background};
+
+    @media screen and (max-width: 1280px) {
+        width: 100%;
+    }
 `
 
 const ProblemHeader = styled.div`

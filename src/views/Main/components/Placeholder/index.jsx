@@ -22,7 +22,7 @@ function Placeholder() {
     const theme = useTheme()
     return (
         <PlaceholderWrapper>
-            <Typography color={theme.palette.text.light}>
+            <Typography color={theme.palette.text.light} align="center">
                 <PlaceholderButton>유사문항</PlaceholderButton>
                 버튼을 누르면 <br /> 해당 문제의 유사 문항을 볼 수 있습니다.
             </Typography>

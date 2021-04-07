@@ -7,10 +7,13 @@ import Problem from './components/Problem'
 
 function App() {
     const [problems, setProblems] = useState([])
+    const [similars, setSimilars] = useState([])
     const reloadData = async () => {
         try {
-            const { data } = await api.problems()
-            setProblems(data)
+            const { data: problems } = await api.problems()
+            const { data: similars } = await api.similars()
+            setProblems(problems)
+            setSimilars(similars)
         } catch (err) {
             console.log(err.message)
         }
@@ -29,8 +32,10 @@ function App() {
             </Section>
             <Section>
                 <SectionTitle align="center">문항 교체/추가</SectionTitle>
-                <Placeholder />
-                {/* <Problem key={problem.id} seq={index + 1} {...problem} /> */}
+                {similars.length === 0 && <Placeholder />}
+                {similars.map((similars, index) => (
+                    <Problem key={similars.id} seq={index + 1} {...similars} />
+                ))}
             </Section>
         </Layout>
     )

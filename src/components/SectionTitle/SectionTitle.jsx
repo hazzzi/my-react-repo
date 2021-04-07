@@ -6,6 +6,10 @@ const TitleWrapper = styled.div`
     border-bottom: 2px solid ${({ theme }) => theme.palette.border};
 
     ${({ align }) => (align === 'center' ? `text-align: center` : ` padding-left: 25px`)};
+
+    position: sticky;
+    top: 0;
+    background-color: ${({ theme }) => theme.palette.white};
 `
 
 const SectionTitle = ({ children, align }) => {

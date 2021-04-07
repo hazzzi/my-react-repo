@@ -10,6 +10,8 @@ const Section = styled.section`
     background-color: ${({ theme }) => theme.palette.white};
 
     overflow: auto;
+    ::-webkit-scrollbar {
+        display: none;
+    }
 `
-
 export default Section
