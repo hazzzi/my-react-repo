@@ -36,11 +36,12 @@ function App() {
     const _handleRemoveClick = id => {
         const { id: selectedID } = selectedProblem || {}
 
-        const index = problems.findIndex(problem => problem.id === id)
         const newProblems = [...problems]
-        newProblems.splice(index, 1)
-        setProblems(newProblems)
 
+        const index = problems.findIndex(problem => problem.id === id)
+        newProblems.splice(index, 1)
+
+        setProblems(newProblems)
         if (selectedID === id) {
             setSelectedProblem()
             setSimilars([])

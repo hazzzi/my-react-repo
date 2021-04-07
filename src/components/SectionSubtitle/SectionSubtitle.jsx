@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { Typography } from '..'
 
 const SubtitleWrapper = styled.div`
-    background-color: #fafafa;
+    background-color: ${({ theme }) => theme.palette.text.background};
     padding-left: 25px;
 `
 
