@@ -8,8 +8,8 @@ const Problem = () => {
             <div>
                 <Typography>문제 유형</Typography>
                 <Typography>문제 설명</Typography>
-                <Button>버튼</Button>
-                <Button>버튼</Button>
+                <Button varient="outlined">버튼</Button>
+                <Button varient="outlined">버튼</Button>
             </div>
             <div>
                 <Typography>1</Typography>

@@ -1,6 +1,7 @@
 const pixelToRem = size => `${size / 16}rem`
 
 const palette = {
+    white: '#FFFFFF',
     primary: {
         light: '#02C7F2',
         main: '#00ABFF',
