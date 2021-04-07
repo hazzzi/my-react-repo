@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import { useRecoilState, useSetRecoilState } from 'recoil'
+import { useRecoilState } from 'recoil'
 import api from 'src/api'
 import { Button, Typography } from 'src/components'
-import { selectedProblemState, similarsState } from 'src/recoil/store'
+import { problemsState, selectedProblemState, similarsState } from 'src/recoil/store'
 import styled, { useTheme } from 'styled-components'
 
 const ProblemWrapper = styled.article`
@@ -51,14 +51,15 @@ const ImageWrapper = styled.div`
     }
 `
 
-const ProblemCard = ({ seq, isSimilar, problem, onRemoveClick, onAddClick, onChangeClick }) => {
+const ProblemCard = ({ seq, isSimilar, problem }) => {
     const theme = useTheme()
     const { id, problemType, problemURL, unitName } = problem
 
     const [selectedProblem, setSelectedProblem] = useRecoilState(selectedProblemState)
-    // const [problems, setProblems] = useRecoilState(problemsState)
-    const setSimilars = useSetRecoilState(similarsState)
+    const [problems, setProblems] = useRecoilState(problemsState)
+    const [similars, setSimilars] = useRecoilState(similarsState)
 
+    // 유사문항 버튼 클릭
     const _handleSimilarClick = async problem => {
         try {
             const { data: similars } = await api.similars()
@@ -67,6 +68,60 @@ const ProblemCard = ({ seq, isSimilar, problem, onRemoveClick, onAddClick, onCha
         } catch (err) {
             console.log(err.message)
         }
+    }
+
+    // 삭제 버튼 클릭
+    const _handleRemoveClick = id => {
+        const newProblems = [...problems]
+
+        const index = problems.findIndex(problem => problem.id === id)
+        newProblems.splice(index, 1)
+
+        setProblems(newProblems)
+
+        if (selectedProblem?.id === id) {
+            setSelectedProblem()
+            setSimilars([])
+        }
+    }
+
+    // 추가 버튼 클릭
+    const _handleAddClick = problem => {
+        const existed = problems.every(({ id }) => id !== problem.id)
+
+        const newProblems = [...problems]
+        const newSimilars = [...similars]
+
+        if (existed) {
+            const index = problems.findIndex(problem => problem.id === selectedProblem?.id)
+            newProblems.splice(index + 1, 0, problem)
+        }
+
+        const sIndex = similars.findIndex(similar => similar.id === problem.id)
+        newSimilars.splice(sIndex, 1)
+
+        setProblems(newProblems)
+        setSimilars(newSimilars)
+    }
+
+    // 변경 버튼 클릭
+    const _handleChangeClick = problem => {
+        const existed = problems.every(({ id }) => id !== problem.id)
+
+        const newProblems = [...problems]
+        const newSimilars = [...similars]
+
+        if (existed) {
+            const index = problems.findIndex(problem => problem.id === selectedProblem?.id)
+            newProblems.splice(index, 1, problem)
+        }
+
+        const sIndex = similars.findIndex(similar => similar.id === problem.id)
+        newSimilars.splice(sIndex, 1)
+
+        setProblems(newProblems)
+        setSimilars(newSimilars)
+        setSelectedProblem(problem)
     }
 
     const selected = selectedProblem?.id === id
@@ -80,23 +135,22 @@ const ProblemCard = ({ seq, isSimilar, problem, onRemoveClick, onAddClick, onCha
                 <UnitName as="p">{unitName}</UnitName>
                 {isSimilar ? (
                     <>
-                        <Button variant="outlined" onClick={() => onAddClick(problem)}>
+                        <Button variant="outlined" onClick={() => _handleAddClick(problem)}>
                             추가
                         </Button>
-                        <Button variant="outlined" onClick={() => onChangeClick(problem)}>
+                        <Button variant="outlined" onClick={() => _handleChangeClick(problem)}>
                             교체
                         </Button>
                     </>
                 ) : (
                     <>
-                        {/* <Button variant={selected ? 'contains' : 'outlined'} onClick={() => onSimilarClick(problem)}> */}
                         <Button
                             variant={selected ? 'contains' : 'outlined'}
                             onClick={() => _handleSimilarClick(problem)}
                         >
                             유사문항
                         </Button>
-                        <Button variant="outlined" onClick={() => onRemoveClick(id)}>
+                        <Button variant="outlined" onClick={() => _handleRemoveClick(id)}>
                             삭제
                         </Button>
                     </>
@@ -117,17 +171,12 @@ const ProblemCard = ({ seq, isSimilar, problem, onRemoveClick, onAddClick, onCha
 ProblemCard.propTypes = {
     seq: PropTypes.number.isRequired,
     isSimilar: PropTypes.bool,
-    id: PropTypes.number.isRequired,
     problem: PropTypes.shape({
         id: PropTypes.number.isRequired,
         problemType: PropTypes.string,
         problemURL: PropTypes.string,
         unitName: PropTypes.string,
     }),
-    onSimilarClick: PropTypes.func,
-    onRemoveClick: PropTypes.func,
-    onAddClick: PropTypes.func,
-    onChangeClick: PropTypes.func,
 }
 
 export default ProblemCard

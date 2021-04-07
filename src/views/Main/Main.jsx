@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useRecoilValue } from 'recoil'
 import api from 'src/api'
 import { Button, Layout, Section, SectionSubtitle, SectionTitle } from 'src/components'
 import { problemsState, similarsState, selectedProblemState } from 'src/recoil/store'
@@ -9,9 +9,8 @@ import ProblemCard from './components/ProblemCard'
 
 function App() {
     const [problems, setProblems] = useRecoilState(problemsState)
-    const [similars, setSimilars] = useRecoilState(similarsState)
-
-    const [selectedProblem, setSelectedProblem] = useRecoilState(selectedProblemState)
+    const similars = useRecoilValue(similarsState)
+    const selectedProblem = useRecoilValue(selectedProblemState)
 
     const reloadData = async () => {
         try {
@@ -25,75 +24,13 @@ function App() {
         reloadData()
     }, [])
 
-    const _handleRemoveClick = id => {
-        const { id: selectedID } = selectedProblem || {}
-
-        const newProblems = [...problems]
-
-        const index = problems.findIndex(problem => problem.id === id)
-        newProblems.splice(index, 1)
-
-        setProblems(newProblems)
-        if (selectedID === id) {
-            setSelectedProblem()
-            setSimilars([])
-        }
-    }
-
-    const _handleAddClick = problem => {
-        const { id: selectedID } = selectedProblem || {}
-
-        const existed = problems.every(({ id }) => id !== problem.id)
-
-        const newProblems = [...problems]
-        const newSimilars = [...similars]
-
-        if (existed) {
-            const index = problems.findIndex(problem => problem.id === selectedID)
-            newProblems.splice(index + 1, 0, problem)
-        }
-
-        const sindex = similars.findIndex(similar => similar.id === problem.id)
-        newSimilars.splice(sindex, 1)
-
-        setProblems(newProblems)
-        setSimilars(newSimilars)
-    }
-
-    const _handleChangeClick = problem => {
-        const { id: selectedID } = selectedProblem || {}
-
-        const existed = problems.every(({ id }) => id !== problem.id)
-
-        const newProblems = [...problems]
-        const newSimilars = [...similars]
-
-        if (existed) {
-            const index = problems.findIndex(problem => problem.id === selectedID)
-            newProblems.splice(index, 1, problem)
-        }
-
-        const sindex = similars.findIndex(similar => similar.id === problem.id)
-        newSimilars.splice(sindex, 1)
-
-        setProblems(newProblems)
-        setSimilars(newSimilars)
-        setSelectedProblem(problem)
-    }
-
     return (
         <Layout>
             <Section>
                 <SectionTitle>학습지 상세 편집</SectionTitle>
                 {problems.length === 0 && <Placeholder>학습문항이 존재하지 않습니다.</Placeholder>}
                 {problems.map((problem, index) => (
-                    <ProblemCard
-                        key={problem.id}
-                        seq={index + 1}
-                        problem={problem}
-                        // id={problem.id}
-                        onRemoveClick={_handleRemoveClick}
-                    />
+                    <ProblemCard key={problem.id} seq={index + 1} problem={problem} />
                 ))}
             </Section>
             <Section>
@@ -108,14 +45,7 @@ function App() {
                     </Placeholder>
                 )}
                 {similars.map((similar, index) => (
-                    <ProblemCard
-                        key={similar.id}
-                        seq={index + 1}
-                        isSimilar={true}
-                        problem={similar}
-                        onAddClick={_handleAddClick}
-                        onChangeClick={_handleChangeClick}
-                    />
+                    <ProblemCard key={similar.id} seq={index + 1} isSimilar={true} problem={similar} />
                 ))}
             </Section>
         </Layout>
