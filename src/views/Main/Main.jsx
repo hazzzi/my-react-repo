@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react'
 import api from 'src/api'
+import { SectionTitle } from 'src/components'
 import styled from 'styled-components'
 import { Layout, Section, Typography } from '../../components'
 import Problem from './components/Problem'
@@ -33,17 +34,13 @@ function App() {
     return (
         <Layout>
             <Section>
-                <Box>
-                    <h4>학습지 상세 편집</h4>
-                </Box>
+                <SectionTitle>학습지 상세 편집</SectionTitle>
                 {problems.map((problem, index) => (
                     <Problem key={problem.id} seq={index + 1} {...problem} />
                 ))}
             </Section>
             <Section>
-                <Box2>
-                    <h4>문항 교체/추가</h4>
-                </Box2>
+                <SectionTitle align="center">문항 교체/추가</SectionTitle>
                 <Similar />
             </Section>
         </Layout>
