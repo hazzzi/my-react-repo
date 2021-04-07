@@ -1,14 +1,28 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import api from 'src/api'
 import { Layout, Section, Typography } from '../../components'
 import Problem from './components/Problem'
 
 function App() {
+    const [data, setData] = useState()
+    const reloadData = async () => {
+        try {
+            const response = await api.problems()
+            setData(response)
+        } catch (err) {
+            console.log(err.message)
+        }
+    }
+    useEffect(() => {
+        reloadData()
+    }, [])
+
+    console.log(data)
+
     return (
         <Layout>
             <Section>
-                <article>
-                    <h4>학습지 상세 편집</h4>
-                </article>
+                <h4>학습지 상세 편집</h4>
                 <Problem />
                 <Problem />
                 <Problem />
