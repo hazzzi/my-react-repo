@@ -48,12 +48,9 @@ const ImageWrapper = styled.div`
     }
 `
 
-const Problem = ({ seq, id, selected, similar, problemType, problemURL, unitName, onSimilarClick, onRemoveClick }) => {
+const ProblemCard = ({ seq, selected, isSimilar, problem, onSimilarClick, onRemoveClick, onAddClick }) => {
     const theme = useTheme()
-
-    const _handleClick = () => {
-        onSimilarClick({ id, unitName })
-    }
+    const { id, unitName, problemType, problemURL } = problem
 
     return (
         <ProblemWrapper>
@@ -62,19 +59,21 @@ const Problem = ({ seq, id, selected, similar, problemType, problemURL, unitName
                     {problemType}
                 </Typography>
                 <UnitName as="p">{unitName}</UnitName>
-                {!similar ? (
+                {isSimilar ? (
                     <>
-                        <Button variant={selected ? 'contains' : 'outlined'} onClick={_handleClick}>
+                        <Button variant="outlined" onClick={() => onAddClick(problem)}>
+                            추가
+                        </Button>
+                        <Button variant="outlined">교체</Button>
+                    </>
+                ) : (
+                    <>
+                        <Button variant={selected ? 'contains' : 'outlined'} onClick={() => onSimilarClick(problem)}>
                             유사문항
                         </Button>
                         <Button variant="outlined" onClick={() => onRemoveClick(id)}>
                             삭제
                         </Button>
-                    </>
-                ) : (
-                    <>
-                        <Button variant="outlined">추가</Button>
-                        <Button variant="outlined">교체</Button>
                     </>
                 )}
             </ProblemHeader>
@@ -90,16 +89,19 @@ const Problem = ({ seq, id, selected, similar, problemType, problemURL, unitName
     )
 }
 
-Problem.propTypes = {
+ProblemCard.propTypes = {
     seq: PropTypes.number.isRequired,
-    id: PropTypes.number.isRequired,
     selected: PropTypes.number.isRequired,
-    problemType: PropTypes.string,
-    problemURL: PropTypes.string,
-    unitName: PropTypes.string,
-    similar: PropTypes.any,
+    isSimilar: PropTypes.bool,
+    problem: PropTypes.objectOf({
+        id: PropTypes.number.isRequired,
+        problemType: PropTypes.string,
+        problemURL: PropTypes.string,
+        unitName: PropTypes.string,
+    }),
     onSimilarClick: PropTypes.func,
     onRemoveClick: PropTypes.func,
+    onAddClick: PropTypes.func,
 }
 
-export default Problem
+export default ProblemCard

@@ -3,7 +3,7 @@ import api from 'src/api'
 import { Button, Layout, Section, SectionSubtitle, SectionTitle } from 'src/components'
 import styled from 'styled-components'
 import Placeholder from './components/Placeholder'
-import Problem from './components/Problem'
+import ProblemCard from './components/ProblemCard'
 
 function App() {
     const [problems, setProblems] = useState([])
@@ -52,15 +52,12 @@ function App() {
             <Section>
                 <SectionTitle>학습지 상세 편집</SectionTitle>
                 {problems.length === 0 && <Placeholder>학습문항이 존재하지 않습니다.</Placeholder>}
-                {problems.map(({ id, problemType, problemURL, unitName }, index) => (
-                    <Problem
-                        key={id}
+                {problems.map((problem, index) => (
+                    <ProblemCard
+                        key={problem.id}
                         seq={index + 1}
-                        selected={selectedProblem?.id === id}
-                        id={id}
-                        problemType={problemType}
-                        problemURL={problemURL}
-                        unitName={unitName}
+                        selected={selectedProblem?.id === problem.id}
+                        problem={problem}
                         onSimilarClick={_handleSimilarClick}
                         onRemoveClick={_handleRemoveClick}
                     />
@@ -76,7 +73,7 @@ function App() {
                     </Placeholder>
                 )}
                 {similars.map((similar, index) => (
-                    <Problem key={similar.id} seq={index + 1} similar {...similar} />
+                    <ProblemCard key={similar.id} seq={index + 1} isSimilar={true} problem={similar} />
                 ))}
             </Section>
         </Layout>
