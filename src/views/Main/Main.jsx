@@ -50,10 +50,12 @@ function App() {
     const _handleAddClick = problem => {
         const { id: selectedID } = selectedProblem || {}
 
+        const existed = problems.every(({ id }) => id !== problem.id)
+
         const newProblems = [...problems]
         const newSimilars = [...similars]
 
-        if (problems.every(({ id }) => id !== problem.id)) {
+        if (existed) {
             const index = problems.findIndex(problem => problem.id === selectedID)
             newProblems.splice(index + 1, 0, problem)
         }
@@ -68,10 +70,21 @@ function App() {
     const _handleChangeClick = problem => {
         const { id: selectedID } = selectedProblem || {}
 
-        const index = problems.findIndex(problem => problem.id === selectedID)
+        const existed = problems.every(({ id }) => id !== problem.id)
+
         const newProblems = [...problems]
-        newProblems.splice(index, 1, problem)
+        const newSimilars = [...similars]
+
+        if (existed) {
+            const index = problems.findIndex(problem => problem.id === selectedID)
+            newProblems.splice(index, 1, problem)
+        }
+
+        const sindex = similars.findIndex(similar => similar.id === problem.id)
+        newSimilars.splice(sindex, 1)
+
         setProblems(newProblems)
+        setSimilars(newSimilars)
         setSelectedProblem(problem)
     }
 
