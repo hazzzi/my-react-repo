@@ -10,6 +10,7 @@ const palette = {
         main: '#4C4C4C',
         light: '#9F9F9F',
     },
+    background: '#F5F5F5',
     border: '#E0E0E0',
 }
 

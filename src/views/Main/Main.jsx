@@ -1,15 +1,21 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react'
 import api from 'src/api'
+import styled from 'styled-components'
 import { Layout, Section, Typography } from '../../components'
 import Problem from './components/Problem'
 
+const Box = styled.div`
+    border-bottom: 2px solid ${({ theme }) => theme.palette.border};
+    padding-left: 25px;
+`
+
 function App() {
-    const [data, setData] = useState()
+    const [problems, setProblems] = useState([])
     const reloadData = async () => {
         try {
-            // const response = await api.problems()
-            // setData(response)
+            const { data } = await api.problems()
+            setProblems(data)
         } catch (err) {
             console.log(err.message)
         }
@@ -18,13 +24,15 @@ function App() {
         reloadData()
     }, [])
 
-    console.log(data)
-
     return (
         <Layout>
             <Section>
-                <h4>학습지 상세 편집</h4>
-                <Problem />
+                <Box>
+                    <h4>학습지 상세 편집</h4>
+                </Box>
+                {problems.map((problem, index) => (
+                    <Problem key={problem.id} seq={index + 1} {...problem} />
+                ))}
             </Section>
             <Section>
                 <article>
