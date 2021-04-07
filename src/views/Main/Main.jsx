@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
+import { useRecoilState } from 'recoil'
 import api from 'src/api'
 import { Button, Layout, Section, SectionSubtitle, SectionTitle } from 'src/components'
+import { problemsState, similarsState, selectedProblemState } from 'src/recoil/store'
 import styled from 'styled-components'
 import Placeholder from './components/Placeholder'
 import ProblemCard from './components/ProblemCard'
 
 function App() {
-    const [problems, setProblems] = useState([])
-    const [similars, setSimilars] = useState([])
+    const [problems, setProblems] = useRecoilState(problemsState)
+    const [similars, setSimilars] = useRecoilState(similarsState)
 
-    const [selectedProblem, setSelectedProblem] = useState()
+    const [selectedProblem, setSelectedProblem] = useRecoilState(selectedProblemState)
 
     const reloadData = async () => {
         try {
@@ -22,16 +24,6 @@ function App() {
     useEffect(() => {
         reloadData()
     }, [])
-
-    const _handleSimilarClick = async problem => {
-        try {
-            const { data: similars } = await api.similars()
-            setSelectedProblem(problem)
-            setSimilars(similars)
-        } catch (err) {
-            console.log(err.message)
-        }
-    }
 
     const _handleRemoveClick = id => {
         const { id: selectedID } = selectedProblem || {}
@@ -98,9 +90,8 @@ function App() {
                     <ProblemCard
                         key={problem.id}
                         seq={index + 1}
-                        selected={selectedProblem?.id === problem.id}
                         problem={problem}
-                        onSimilarClick={_handleSimilarClick}
+                        // id={problem.id}
                         onRemoveClick={_handleRemoveClick}
                     />
                 ))}

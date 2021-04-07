@@ -1,6 +1,9 @@
 import PropTypes from 'prop-types'
 import React from 'react'
+import { useRecoilState, useSetRecoilState } from 'recoil'
+import api from 'src/api'
 import { Button, Typography } from 'src/components'
+import { selectedProblemState, similarsState } from 'src/recoil/store'
 import styled, { useTheme } from 'styled-components'
 
 const ProblemWrapper = styled.article`
@@ -48,18 +51,25 @@ const ImageWrapper = styled.div`
     }
 `
 
-const ProblemCard = ({
-    seq,
-    selected,
-    isSimilar,
-    problem,
-    onSimilarClick,
-    onRemoveClick,
-    onAddClick,
-    onChangeClick,
-}) => {
+const ProblemCard = ({ seq, isSimilar, problem, onRemoveClick, onAddClick, onChangeClick }) => {
     const theme = useTheme()
-    const { id, unitName, problemType, problemURL } = problem
+    const { id, problemType, problemURL, unitName } = problem
+
+    const [selectedProblem, setSelectedProblem] = useRecoilState(selectedProblemState)
+    // const [problems, setProblems] = useRecoilState(problemsState)
+    const setSimilars = useSetRecoilState(similarsState)
+
+    const _handleSimilarClick = async problem => {
+        try {
+            const { data: similars } = await api.similars()
+            setSelectedProblem(problem)
+            setSimilars(similars)
+        } catch (err) {
+            console.log(err.message)
+        }
+    }
+
+    const selected = selectedProblem?.id === id
 
     return (
         <ProblemWrapper>
@@ -79,7 +89,11 @@ const ProblemCard = ({
                     </>
                 ) : (
                     <>
-                        <Button variant={selected ? 'contains' : 'outlined'} onClick={() => onSimilarClick(problem)}>
+                        {/* <Button variant={selected ? 'contains' : 'outlined'} onClick={() => onSimilarClick(problem)}> */}
+                        <Button
+                            variant={selected ? 'contains' : 'outlined'}
+                            onClick={() => _handleSimilarClick(problem)}
+                        >
                             유사문항
                         </Button>
                         <Button variant="outlined" onClick={() => onRemoveClick(id)}>
@@ -102,8 +116,8 @@ const ProblemCard = ({
 
 ProblemCard.propTypes = {
     seq: PropTypes.number.isRequired,
-    selected: PropTypes.bool.isRequired,
     isSimilar: PropTypes.bool,
+    id: PropTypes.number.isRequired,
     problem: PropTypes.shape({
         id: PropTypes.number.isRequired,
         problemType: PropTypes.string,
