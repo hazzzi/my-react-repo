@@ -1,7 +1,7 @@
+import PropTypes from 'prop-types'
 import React from 'react'
 import { Button, Typography } from 'src/components'
 import styled, { useTheme } from 'styled-components'
-import PropTypes from 'prop-types'
 
 const ProblemWrapper = styled.article`
     width: 649px;
@@ -48,8 +48,13 @@ const ImageWrapper = styled.div`
     }
 `
 
-const Problem = ({ seq, similar, problemType, problemURL, unitName }) => {
+const Problem = ({ seq, id, selected, similar, problemType, problemURL, unitName, onSimilarClick, onRemoveClick }) => {
     const theme = useTheme()
+
+    const _handleClick = () => {
+        onSimilarClick({ id, unitName })
+    }
+
     return (
         <ProblemWrapper>
             <ProblemHeader>
@@ -59,8 +64,12 @@ const Problem = ({ seq, similar, problemType, problemURL, unitName }) => {
                 <UnitName as="p">{unitName}</UnitName>
                 {!similar ? (
                     <>
-                        <Button variant="outlined">유사문항</Button>
-                        <Button variant="outlined">삭제</Button>
+                        <Button variant={selected ? 'contains' : 'outlined'} onClick={_handleClick}>
+                            유사문항
+                        </Button>
+                        <Button variant="outlined" onClick={() => onRemoveClick(id)}>
+                            삭제
+                        </Button>
                     </>
                 ) : (
                     <>
@@ -83,10 +92,14 @@ const Problem = ({ seq, similar, problemType, problemURL, unitName }) => {
 
 Problem.propTypes = {
     seq: PropTypes.number.isRequired,
+    id: PropTypes.number.isRequired,
+    selected: PropTypes.number.isRequired,
     problemType: PropTypes.string,
     problemURL: PropTypes.string,
     unitName: PropTypes.string,
     similar: PropTypes.any,
+    onSimilarClick: PropTypes.func,
+    onRemoveClick: PropTypes.func,
 }
 
 export default Problem

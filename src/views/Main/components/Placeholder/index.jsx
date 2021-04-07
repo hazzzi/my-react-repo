@@ -1,5 +1,5 @@
+import PropTypes from 'prop-types'
 import React from 'react'
-import { Button } from 'src/components'
 import { Typography } from 'src/components'
 import styled, { useTheme } from 'styled-components'
 
@@ -10,26 +10,28 @@ const PlaceholderWrapper = styled.article`
     display: flex;
     justify-content: center;
     align-items: center;
+
+    @media screen and (max-width: 1280px) {
+        width: 450px;
+    }
+    @media screen and (max-width: 1024px) {
+        width: 100%;
+    }
 `
 
-const PlaceholderButton = styled(Button)`
-    width: 70px;
-    height: 24px;
-    font-size: 12px;
-`
-
-function Placeholder() {
+function Placeholder({ children }) {
     const theme = useTheme()
     return (
         <PlaceholderWrapper>
             <Typography color={theme.palette.text.light} align="center">
-                <PlaceholderButton>유사문항</PlaceholderButton> 버튼을 누르면 <br />
-                해당 문제의 유사 문항을 볼 수 있습니다.
+                {children}
             </Typography>
         </PlaceholderWrapper>
     )
 }
 
-Placeholder.propTypes = {}
+Placeholder.propTypes = {
+    children: PropTypes.node,
+}
 
 export default Placeholder
