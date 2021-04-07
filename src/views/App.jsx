@@ -1,8 +1,9 @@
 import React from 'react'
+import { Layout } from '../components'
 
 function App() {
     return (
-        <main>
+        <Layout>
             <section>
                 <article>
                     <h4>학습지 상세 편집</h4>
@@ -32,7 +33,7 @@ function App() {
                     <p>해당 문제의 유사 문항을 볼 수 있습니다.</p>
                 </article>
             </section>
-        </main>
+        </Layout>
     )
 }
 
