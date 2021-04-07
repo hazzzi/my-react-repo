@@ -9,6 +9,7 @@ const Button = styled.button`
     cursor: pointer;
     width: 80px;
     height: 36px;
+    margin: 4px;
 
     font-weight: bold;
     font-size: ${({ theme }) => theme.pixelToRem(14)};

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react'
 import api from 'src/api'
 import { Layout, Section, Typography } from '../../components'
@@ -7,8 +8,8 @@ function App() {
     const [data, setData] = useState()
     const reloadData = async () => {
         try {
-            const response = await api.problems()
-            setData(response)
+            // const response = await api.problems()
+            // setData(response)
         } catch (err) {
             console.log(err.message)
         }
@@ -23,9 +24,6 @@ function App() {
         <Layout>
             <Section>
                 <h4>학습지 상세 편집</h4>
-                <Problem />
-                <Problem />
-                <Problem />
                 <Problem />
             </Section>
             <Section>
